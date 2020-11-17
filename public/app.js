@@ -1,4 +1,10 @@
 const DB_URL = 'http://localhost:3000/db';
+const searchInput = document.getElementById('searchInput');
+const ageInput = document.getElementById('ageInput');
+const nameInput = document.getElementById('nameInput');
+const peopleDataList = document.getElementById('people');
+let people = [];
+let datalistArr = [];
 
 fetch(DB_URL)
   .then(response => {
@@ -9,9 +15,37 @@ fetch(DB_URL)
      return response.json();
   })
   .then(data => {
-      console.log(data)
+      people = data.people
+      console.log('Data: ',people)
   })
   .catch(error => console.error(error));
+
+searchInput.addEventListener('input', () => {
+  people.map(person => {
+    if (!searchInput.value) {
+      Array.from(peopleDataList.childNodes).forEach(person => {
+        person.remove();
+        datalistArr = [];
+      });
+    } else if (person.name.includes(searchInput.value) || searchInput.value > 0) {
+      if (!datalistArr.includes(person.name)) {
+        const newOption = document.createElement("option");
+        newOption.value = `${person.name} - ${person.age}`;
+        peopleDataList.appendChild(newOption);
+        datalistArr.push(person.name);
+      }
+    } 
+    // if (person.name.includes(searchInput.value) && !datalistArr.includes(person.name) && searchInput.value) {
+    //   datalistArr.push(person.name);
+    //   console.log(datalistArr);
+    // } else if (!searchInput.value) {
+    //   datalistArr = [];
+    //   console.log(datalistArr);
+    // }
+  })
+})
+
+
 
 
 

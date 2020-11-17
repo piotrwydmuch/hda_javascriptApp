@@ -11,10 +11,10 @@
     main {
         display: flex;
     }
-    #search {
+    #searchContainer {
         background-color: teal;
     }
-    #addNew {
+    #addNewContainer {
         display: flex;
         flex-direction: column;
         background-color: lightcoral;
@@ -26,16 +26,17 @@
 </style>
 <body>
     <main>
-        <div id="search">
+        <div id="searchContainer">
             <p>Seach:</p>
-            <input type="text">
+            <input id="searchInput" list="people" type="text">
+            <datalist id="people"></datalist>
         </div>
-        <div id="addNew">
+        <div id="addNewContainer">
             <p>Add new</p>
-            <label for="name">Name:</label>
-            <input id="name" type="text">
-            <label for="age">Age:</label>
-            <input id="age" type="text">
+            <label for="nameInput">Name:</label>
+            <input id="nameInput" type="text">
+            <label for="ageInput">Age:</label>
+            <input id="ageInput" type="text">
             <input type="submit" value="Add">
         </div>
     </main>
