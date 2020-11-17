@@ -1,0 +1,44 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>human data associates app</title>
+</head>
+<style>
+    body {
+        margin: 0;
+    }
+    main {
+        display: flex;
+    }
+    #search {
+        background-color: teal;
+    }
+    #addNew {
+        display: flex;
+        flex-direction: column;
+        background-color: lightcoral;
+    }
+    div {
+        margin: 10px 20px;
+        padding: 5px 15px;
+    }
+</style>
+<body>
+    <main>
+        <div id="search">
+            <p>Seach:</p>
+            <input type="text">
+        </div>
+        <div id="addNew">
+            <p>Add new</p>
+            <label for="name">Name:</label>
+            <input id="name" type="text">
+            <label for="age">Age:</label>
+            <input id="age" type="text">
+            <input type="submit" value="Add">
+        </div>
+    </main>
+    <script src="./app.js"></script>
+</body>
+</html>
