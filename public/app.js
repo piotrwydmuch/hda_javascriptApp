@@ -15,8 +15,8 @@ fetch(DB_URL)
      return response.json();
   })
   .then(data => {
-      people = data.people
-      console.log('Data: ',people)
+      people = data.people;
+      // console.log(people);
   })
   .catch(error => console.error(error));
 
@@ -35,15 +35,9 @@ searchInput.addEventListener('input', () => {
         datalistArr.push(person.name);
       }
     } 
-    // if (person.name.includes(searchInput.value) && !datalistArr.includes(person.name) && searchInput.value) {
-    //   datalistArr.push(person.name);
-    //   console.log(datalistArr);
-    // } else if (!searchInput.value) {
-    //   datalistArr = [];
-    //   console.log(datalistArr);
-    // }
   })
 })
+
 
 
 
