@@ -25,7 +25,7 @@ app.use(express.urlencoded({
 //Post new users to database
 app.post('/', function (req, res) {
   const newData = req.body;
-  const currentData = db.people;
+  const currentData = db.db.people;
   currentData.push(newData);
   console.log('New person added to db!');
   res.redirect(`/?user=added`);

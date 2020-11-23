@@ -17,26 +17,37 @@ fetch(DB_URL)
     return response.json();
 })
 .then(data => {
-    people = data.people;
-    // console.log(people);
+    people = data.db.people;
+    console.log(people);
 })
 .catch(error => console.error(error));
 
 searchInput.addEventListener("input", () => {
+
   people.map(person => {
-    if (!searchInput.value) {
-      Array.from(peopleDataList.childNodes).forEach(person => {
+    
+    const searchingValue = searchInput.value;
+    const searchingValueLowCase = searchingValue.toLowerCase()
+    const [userName, userAge] = [person.name, person.age]
+    const userNameLowCase = userName.toLowerCase();
+
+    if (!searchingValue) { // When Search input is empty - clear all
+      
+      const dataListOptions = Array.from(peopleDataList.childNodes);
+      
+      dataListOptions.forEach(person => {
         person.remove();
         datalistArr = [];
         searchInput.blur();
         searchInput.focus();
       });
-    } else if (person.name.toLowerCase().includes(searchInput.value.toLowerCase()) || searchInput.value > 0) {
-      if (!datalistArr.includes(person.name)) {
+    } else if (userNameLowCase.includes(searchingValueLowCase) 
+      || searchingValue > 0) { // If any sign is found in fetched data
+      if (!datalistArr.includes(userName)) { // Avoid duplicate options
         const newOption = document.createElement("option");
-        newOption.value = `${person.name} - ${person.age}`;
+        newOption.value = `${userName} - ${userAge}`;
         peopleDataList.appendChild(newOption);
-        datalistArr.push(person.name);
+        datalistArr.push(userName);
       }
     } 
   })
