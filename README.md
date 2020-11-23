@@ -11,7 +11,7 @@ Simple Express.js app with 2 main functions:
 
 - clone this repo by typing `git clone https://github.com/piotrwydmuch/hda_javascriptApp`
 - change your working directory and type `npm install`
-- you can run app by typing `node index.js` or `nodemon index.js` (autom reload server dependency)
+- you can run app by typing `node index.js` or `nodemon index.js` (auto-reload server)
 - go to http://localhost:3000/
 
 ## Additional info
