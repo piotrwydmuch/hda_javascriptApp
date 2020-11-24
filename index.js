@@ -1,10 +1,26 @@
-const express = require('express')
-const app = express()
-const path = require('path')
-const port = 3000
-const db = require('./data/databse.js')
+const express = require('express');
+const rateLimit = require("express-rate-limit");
+const path = require('path');
+const database = require('./data/databse.js');
 
-//set folder public as Public source for static files
+const app = express();
+const port = 3000;
+
+//Limiters
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 50 // limit each IP to 50 requests per windowMs
+})
+const addUserLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 5, //max users
+  message: 'Too many users added from this IP.'
+})
+
+//Run main Limiter
+app.use(limiter);
+
+//Set folder public as Public source for static files
 app.use(express.static('public'))
 
 //Setting home view
@@ -14,7 +30,7 @@ app.get('/', (req, res) => {
 
 //Creating API for fetch calls
 app.get('/db', (req, res) => {
-  res.send(db)
+  res.send(database.db)
 })
 
 //Returns urlencoded bodies
@@ -23,9 +39,12 @@ app.use(express.urlencoded({
 }))
 
 //Post new users to database
-app.post('/', function (req, res) {
-  const newData = req.body;
-  const currentData = db.db.people;
+app.post('/', addUserLimiter , (req, res) => {
+  let newData = {
+    'name': req.body.name,
+    'age': Number(req.body.age),
+  } 
+  let currentData = database.db.people;
   currentData.push(newData);
   console.log('New person added to db!');
   res.redirect(`/?user=added`);
