@@ -1,5 +1,6 @@
 const express = require('express');
-const rateLimit = require("express-rate-limit");
+const rateLimit = require('express-rate-limit');
+const { check, validationResult } = require('express-validator')
 const path = require('path');
 const database = require('./data/databse.js');
 
@@ -39,11 +40,30 @@ app.use(express.urlencoded({
 }))
 
 //Post new users to database
-app.post('/', addUserLimiter , (req, res) => {
+app.post('/', [
+  addUserLimiter,
+  check('name')
+  .isLength({ min: 4, max: 32 })
+  .withMessage('Name must be at least 4 and max 32 characters')
+  .isAlpha()
+  .withMessage('Only normal, alphabetic characters'),
+  check('age').notEmpty().isNumeric(),
+], (req, res) => {
+  
   let newData = {
     'name': req.body.name,
     'age': Number(req.body.age),
-  } 
+  }
+
+  //If there are any errors, print them to console
+  //and stop adding new users to database
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log('New user cannot be added.', errors);
+    return res.status(400).json({ errors: errors});
+  }
+
+  //Adding new user to databse
   let currentData = database.db.people;
   currentData.push(newData);
   console.log('New person added to db!');
